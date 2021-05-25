@@ -1,0 +1,49 @@
+version: '3.7'
+services: 
+    db:
+        container_name: postgres_container
+        image: postgres
+        restart: always
+        environment: 
+            POSTGRES_DB: postgres
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: postgres
+            PGDATA: /var/lib/postgresql/data
+        volumes: 
+            - db-data:/var/lib/postgresql/data
+        ports: 
+            - "5432:5432"
+
+    
+    pgadmin:
+        container_name: pgadmin_container
+        image: dpage/pgadmin4
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: radek96sikora@gmail.com
+            PGADMIN_DEFAULT_PASSWORD: postgres
+            PGADMIN_LISTEN_PORT: 80
+        ports:
+            - "8080:80"
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+        links:
+            - "db:pgsql-server"
+
+    server:
+        container_name: server_container
+        restart: always
+        build: ./backend
+        command: python manage.py run -h 0.0.0.0
+        depends_on:
+          - db
+        ports:
+          - 5000:5000
+        volumes:
+          - ./backend/:/usr/src/app/
+        env_file:
+          - ./.env.dev
+        
+volumes: 
+    db-data:
+    pgadmin-data:
