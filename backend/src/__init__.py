@@ -1,9 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object("src.config.Config")
+
 db = SQLAlchemy(app)
+
+CORS(app)
 
 
 
@@ -19,9 +23,10 @@ class User(db.Model):
 
 
 
-@app.route("/", methods=['GET'])
+
+@app.route("/testjson", methods=['GET'])
 
 def hello_world():
     return {
-        'hello': 'world2'
+        'test': 'json'
     }
