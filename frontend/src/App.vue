@@ -1,32 +1,76 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <div id="nav">
+            <app-header/>
+        </div>
+        <div>
+            <transition name="slide" mode="out-in">
+                <router-view class="view"></router-view>
+            </transition>
+        </div>
     </div>
-    <router-view/>
-  </div>
 </template>
 
+<script>
+    import Header from "./components/Header";
+
+    export default {
+        components: {
+            appHeader: Header
+        }
+    }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+    }
 
-#nav {
-  padding: 30px;
-}
+    .page {
+        margin-top: 70px;
+    }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    @media screen and (min-width: 768px) {
+        .navbar {
+            margin-bottom: 30px;
+            width: 85vw;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+    .slide-enter-active {
+        animation: slide-in 200ms ease-out forwards;
+    }
+
+    .slide-leave-active {
+        animation: slide-out 200ms ease-out forwards;
+    }
+
+    @keyframes slide-in {
+        0% {
+            transform: translateY(1rem);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slide-out {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(1rem);
+            opacity: 0;
+        }
+    }
 </style>
