@@ -10,6 +10,10 @@ app.config.from_object("src.config.Config")
 
 db = SQLAlchemy(app)
 
+db.drop_all()
+db.create_all()
+db.session.commit()
+
 
 class User(db.Model):
     __tablename__ = "users"
