@@ -13,20 +13,17 @@
       </label>
       <button v-on:click="submitFile()">Submit</button>
     </div>
-    <div class="large-12 medium-12 small-12 cell">
-      <input type="text" class="form-control" placeholder="column name" v-model="columnName">
-      <button v-on:click="submitColumn()">AddColumnName</button>
-    </div>
     <div>
-      <select v-model="selected">
+      <select v-model="selectedColumnName">
         <option v-for="option in columnList" :key="option.text">
           {{ option.text }}
         </option>
       </select>
-      <span>Selected: {{ selected }}</span>
+      <span>Selected: {{ selectedColumnName }}</span>
     </div>
     <div>
       <button v-on:click="submitColumn()">AddSelectedColumn</button>
+      <span>Result: {{ result }}</span>
     </div>
   </div>
 </template>
@@ -41,11 +38,13 @@ export default {
     return {
       file: '',
       columnName: null,
-      selected: 'Default',
+      selectedColumnName: 'Default',
+      fileName: 'Default',
       columnList: [
         {text: 'Default'},
         {text: 'SecondOption'}
-      ]
+      ],
+      result: []
     };
   },
   methods: {
@@ -68,9 +67,20 @@ export default {
         ;
     },
     submitColumn() {
+      axios
+        .post("http://localhost:5000/addSelectedColumnName", {
+              column_name: this.selectedColumnName,
+              dataset_name: this.file.name
+            })
+        .then(response => (this.result = response.data))
+        .then(response => (console.log(response.data)))
+        .catch(error => console.log(error))
+        ;
+    },
+    submitColumn2() {
         try {
-            const response = HTTP.post(`http://localhost:5000/parameterPrototype`, {
-              'column_name': this.selected
+            const response = HTTP.post(`http://localhost:5000/addSelectedColumnName`, {
+              'column_name': this.selectedColumnName
             })
             console.log(response)
         } catch (e) {

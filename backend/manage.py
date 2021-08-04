@@ -2,26 +2,14 @@ from flask.cli import FlaskGroup
 from flask_cors import CORS, cross_origin
 from flask import request
 import os, json
-from dataProcessing import get_column_names
-from src.model.ColumnName import ColumnName
+from dataProcessing import get_column_names, rainTomorow
+from src.model.DatasetsInfo import DatasetsInfo
 
-from src import app, db, User
+from src import app, db
 
 cli = FlaskGroup(app)
 
 CORS(app)
-
-@cli.command("create_db")
-def create_db():
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-
-
-@cli.command("seed_db")
-def seed_db():
-    db.session.add(User(email="michael@mherman.org"))
-    db.session.commit()
 
 
 @app.route("/", methods=['GET'])
@@ -46,13 +34,18 @@ def upload_file():
       names2 = [{'text': x} for x in names]
       return json.dumps(names2)
 
-@app.route('/parameterPrototype', methods = ['POST'])
+@app.route('/addSelectedColumnName', methods = ['POST'])
 def parameterProtoype():
    if request.method == 'POST':
-      columnName = request.json.get('column_name')
-      db.session.add(ColumnName(columnName))
+      data = request.get_json()
+      columnName = data['column_name']
+      datasetName = data['dataset_name']
+      db.session.add(DatasetsInfo(columnName=columnName, datasetName=datasetName))
       db.session.commit()
-      return {}, 201
+      result = rainTomorow(columnName)
+      return  {
+        'result': result
+    }
 
 if __name__ == "__main__":
     cli()
