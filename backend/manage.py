@@ -1,8 +1,8 @@
 from flask.cli import FlaskGroup
 from flask_cors import CORS, cross_origin
-from flask import request
+from flask import request, jsonify
 import os, json
-from dataProcessing import get_column_names, rainTomorow
+from dataProcessing import get_column_names, runMLAlghoritms
 from src.model.DatasetsInfo import DatasetsInfo
 
 from src import app, db
@@ -35,17 +35,38 @@ def upload_file():
       return json.dumps(names2)
 
 @app.route('/addSelectedColumnName', methods = ['POST'])
-def parameterProtoype():
+def addSelectedColumnName():
    if request.method == 'POST':
       data = request.get_json()
       columnName = data['column_name']
       datasetName = data['dataset_name']
       db.session.add(DatasetsInfo(columnName=columnName, datasetName=datasetName))
       db.session.commit()
-      result = rainTomorow(columnName)
       return  {
-        'result': result
+        'result': "jest git"
     }
+
+@app.route("/getDistinctPairs", methods=['GET'])
+def getDistinctPairs():
+
+    qryresult = DatasetsInfo.query.distinct()
+    return jsonify([i.serialize for i in qryresult.all()])
+
+@app.route('/runML', methods = ['POST'])
+def runML():
+   if request.method == 'POST':
+      data = request.get_json()
+      columnName = data['column_name']
+      datasetName = data['dataset_name']
+      alghoritmName = data['alghoritm_name']
+
+      result, y_test, ypred_lr = runMLAlghoritms(columnName, datasetName, alghoritmName)
+
+      return  json.dumps({
+        'result': result,
+        'y_test': [x for x in y_test],
+        'y_pred': [x for x in ypred_lr]
+    })
 
 if __name__ == "__main__":
     cli()

@@ -14,6 +14,9 @@
                     <li class="nav-item">
                         <router-link to="/addData" class="nav-link"><a>Add Data</a></router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/runML" class="nav-link"><a>Run ML</a></router-link>
+                    </li>
                 </ul>
             </div>
         </nav>

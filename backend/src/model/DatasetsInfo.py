@@ -13,3 +13,12 @@ class DatasetsInfo(db.Model):
     def __init__(self, columnName, datasetName):
         self.columnName = columnName
         self.datasetName = datasetName
+
+    @property
+    def serialize(self):
+       """Return object data in easily serializable format"""
+       return {
+           'id'         : self.id,
+           'column_name': self.columnName,
+           'dataset_name'  : self.datasetName
+       }

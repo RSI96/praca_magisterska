@@ -23,6 +23,7 @@
     </div>
     <div>
       <button v-on:click="submitColumn()">AddSelectedColumn</button>
+      <br>
       <span>Result: {{ result }}</span>
     </div>
   </div>
@@ -30,7 +31,6 @@
 
 <script>
 import axios from 'axios';
-import { HTTP } from "../http-common";
 
 export default {
   name: "addData",
@@ -76,16 +76,6 @@ export default {
         .then(response => (console.log(response.data)))
         .catch(error => console.log(error))
         ;
-    },
-    submitColumn2() {
-        try {
-            const response = HTTP.post(`http://localhost:5000/addSelectedColumnName`, {
-              'column_name': this.selectedColumnName
-            })
-            console.log(response)
-        } catch (e) {
-            this.errors.push(e)
-        }
     }
   },
 };
