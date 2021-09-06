@@ -1,7 +1,10 @@
 <template>
   <div class="page">
     <h2>Add .csv files here</h2>
-    <div class="large-12 medium-12 small-12 cell">
+    <br>
+    <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-6 col-sm-4" >
+      <h3>Select Dataset</h3>
       <label
         >File
         <input
@@ -11,18 +14,25 @@
           v-on:change="handleFileUpload()"
         />
       </label>
-      <button v-on:click="submitFile()">Submit</button>
+      <button type="button" class="btn btn-dark" v-on:click="submitFile()">Upload</button>
     </div>
-    <div>
-      <select v-model="selectedColumnName">
+    </div>
+    <br>
+    <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-6 col-sm-4" >
+      <h3>Select Column</h3>
+      <select class="form-select" v-model="selectedColumnName">
         <option v-for="option in columnList" :key="option.text">
           {{ option.text }}
         </option>
       </select>
+      <button type="button" class="btn btn-dark" v-on:click="submitColumn()">AddSelectedColumn</button>
+      <br>
       <span>Selected: {{ selectedColumnName }}</span>
     </div>
+    </div>
+
     <div>
-      <button v-on:click="submitColumn()">AddSelectedColumn</button>
       <br>
       <span>Result: {{ result }}</span>
     </div>
