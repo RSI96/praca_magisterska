@@ -62,10 +62,13 @@ def runML():
 
       result, y_test, ypred_lr = runMLAlghoritms(columnName, datasetName, alghoritmName)
 
+      print(y_test)
+      print(ypred_lr)
+
       return  json.dumps({
         'result': result,
-        'y_test': [x for x in y_test],
-        'y_pred': [x for x in ypred_lr]
+        'y_test': [int(x) for x in y_test],
+        'y_pred': [int(x) for x in ypred_lr]
     })
 
 if __name__ == "__main__":

@@ -31,13 +31,15 @@
       <br>
       <button type="button" class="btn btn-dark" v-on:click="runML()">Run ML alghoritm</button>
       <br>
+      <div>
+        <br>
+        <h3>Result: {{ result.result }}</h3>
+      </div>
       <div class="row justify-content-center">
         <div class="col-lg-11 col-md-10 col-sm-8">
           <apexcharts type="line" :options="chartOptions" :series="series"></apexcharts>
         </div>
       </div>
-      <br>
-      <span>Result: {{ result.result }}</span>
 
     </div>
   </div>

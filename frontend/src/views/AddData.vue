@@ -26,16 +26,11 @@
           {{ option.text }}
         </option>
       </select>
-      <button type="button" class="btn btn-dark" v-on:click="submitColumn()">AddSelectedColumn</button>
       <br>
-      <span>Selected: {{ selectedColumnName }}</span>
+      <button type="button" class="btn btn-dark" v-on:click="submitColumn()">AddSelectedColumn</button>
     </div>
     </div>
 
-    <div>
-      <br>
-      <span>Result: {{ result }}</span>
-    </div>
   </div>
 </template>
 

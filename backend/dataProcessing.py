@@ -22,33 +22,43 @@ def runMLAlghoritms(columnName, datasetName, alghoritmName):
     # Dropping the missing values from the dataset
     df.dropna(inplace=True)
 
-    df["Date"] = pd.to_datetime(df["Date"], format = "%Y-%m-%d", errors = "coerce")
+    if datasetName=='weatherAUS.csv':
+        
+        df["Date"] = pd.to_datetime(df["Date"], format = "%Y-%m-%d", errors = "coerce")
 
-    # Mapping Yes:1, No:0
+        # Mapping Yes:1, No:0
 
-    df['RainTomorrow'] = df['RainTomorrow'].map({'Yes': 1, 'No': 0})
-    df['RainToday'] = df['RainToday'].map({'Yes': 1, 'No': 0})
+        df['RainTomorrow'] = df['RainTomorrow'].map({'Yes': 1, 'No': 0})
+        df['RainToday'] = df['RainToday'].map({'Yes': 1, 'No': 0})
 
-    #Label Encoding the non-numeric variables
-    le = preprocessing.LabelEncoder()
-    df['Location'] = le.fit_transform(df['Location'])
-    df['WindDir9am'] = le.fit_transform(df['WindDir9am'])
-    df['WindDir3pm'] = le.fit_transform(df['WindDir3pm'])
-    df['WindGustDir'] = le.fit_transform(df['WindGustDir'])
+        #Label Encoding the non-numeric variables
+        le = preprocessing.LabelEncoder()
+        df['Location'] = le.fit_transform(df['Location'])
+        df['WindDir9am'] = le.fit_transform(df['WindDir9am'])
+        df['WindDir3pm'] = le.fit_transform(df['WindDir3pm'])
+        df['WindGustDir'] = le.fit_transform(df['WindGustDir'])
+        
+        df.drop("Date", axis=1, inplace=True)
+
+
+    elif datasetName=='':
     
-    df.drop("Date", axis=1, inplace=True)
+        print('jest git')
+
+    elif datasetName=='':
+
+        print('jest git')
+
+    elif datasetName=='': 
+
+        print('jest git')      
+
 
     #Splitting the data into training and test datasets
-    #Here, we are trying to predict whether it is going to
-    #  Rain tomorrow or not in Australia using the given data. 
-    # Hence, the RainTomorrow will be the y label 
-    # and rest of the data will be the X or the input data.
-
     # X data
     X = df.drop(columnName, axis=1)
     # y data
     y = df[columnName]
-
 
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=42)
 
@@ -76,7 +86,7 @@ def runMLAlghoritms(columnName, datasetName, alghoritmName):
         knn = KNeighborsClassifier(4)
         knn.fit(X_train,y_train)
         KNeighborsClassifierScore = knn.score(X_test,y_test)
-        ypred = knns.predict(X_test)
+        ypred = knn.predict(X_test)
         result = KNeighborsClassifierScore*100
 
     return result, y_test, ypred
