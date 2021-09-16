@@ -8,7 +8,11 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.neighbors import KNeighborsClassifier
 
-
+def primary(x):
+    if x in [' 1st-4th', ' 5th-6th', ' 7th-8th', ' 9th', ' 10th', ' 11th', ' 12th']:
+        return ' Primary'
+    else:
+        return x
 
 def get_column_names(file_name):
     df = pd.read_csv('/usr/src/app/uploadeddata/'+file_name)
@@ -40,18 +44,36 @@ def runMLAlghoritms(columnName, datasetName, alghoritmName):
         
         df.drop("Date", axis=1, inplace=True)
 
+    elif datasetName=='adult.csv':
 
-    elif datasetName=='':
-    
-        print('jest git')
+        df.replace(' ?', np.nan, inplace=True)
+        df['incomeBracket'] = df['incomeBracket'].apply(lambda x: 1 if x==' >50K' else 0)
+        df['workclass'].fillna(' 0', inplace=True)
+        df['fnlwgt'] = df['fnlwgt'].apply(lambda x: np.log1p(x))
+        df['education'] = df['education'].apply(primary)
+        df['occupation'].fillna(' 0', inplace=True)
+        df['nativeCountry'].fillna(' 0', inplace=True)
+        categorical_features = df.select_dtypes(include=['object']).axes[1]
+        for col in categorical_features:
+            df = pd.concat([df, pd.get_dummies(df[col], prefix=col, prefix_sep=':')], axis=1)
+            df.drop(col, axis=1, inplace=True)
 
-    elif datasetName=='':
+    elif datasetName=='ChurnModelling.csv':
 
-        print('jest git')
+        le = preprocessing.LabelEncoder()
+        df.drop(labels = ["RowNumber", "CustomerId","Surname"], axis = 1, inplace = True) 
 
-    elif datasetName=='': 
+        df['Geography'].replace("France",1,inplace= True)
+        df['Geography'].replace("Spain",2,inplace = True)
+        df['Geography'].replace("Germany",3,inplace=True)
+        df['Gender'].replace("Female",0,inplace = True)
+        df['Gender'].replace("Male",1,inplace=True)
+        
+    elif datasetName=='winequalityN.csv': 
 
-        print('jest git')      
+        df['type'].replace("white",1,inplace= True)
+        df['type'].replace("red",0,inplace= True)
+
 
 
     #Splitting the data into training and test datasets

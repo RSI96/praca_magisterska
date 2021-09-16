@@ -7,7 +7,7 @@
       <h3>Select Dataset and Column</h3>
       <select class="form-select" v-model="selectedPair">
         <option v-for="option in pairList" :key="option.id" :value="{column_name: option.column_name, dataset_name: option.dataset_name }" >
-          <span>Column Name: {{ option.column_name }}, Dataset: {{ option.dataset_name}}</span>
+          <span>Dataset: {{ option.dataset_name}}</span>, Column Name: {{ option.column_name }}
         </option>
       </select>
       <br>
