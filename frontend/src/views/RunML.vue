@@ -33,10 +33,11 @@
       <br>
       <div>
         <br>
-        <h3>Result: {{ result.result }}</h3>
+        <h3>Result: {{ result.result }}%</h3>
+        <br>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-11 col-md-10 col-sm-8">
+        <div class="col-lg-6 col-md-6 col-sm-6">
           <apexcharts type="line" :options="chartOptions" :series="series"></apexcharts>
         </div>
       </div>
@@ -67,9 +68,15 @@ export default {
           chart: {
             id: 'vuechart-example',
           },
-          // xaxis: {
-          //   categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-          // },
+            yaxis: {
+              title: {
+                text: 'Values'
+              },
+            },
+              title: {
+              text: 'Visualization of predicted values',
+              align: 'center'
+            },
         },
         series: [{
           name: 'y_test',
@@ -112,6 +119,7 @@ export default {
           {
           data: response.data.y_pred.slice(0, 100)
           }]
+          this.result.result = this.result.result.toFixed(2)
       } catch (e) {
         this.errors.push(e)
         }

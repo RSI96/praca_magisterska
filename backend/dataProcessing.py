@@ -48,6 +48,7 @@ def runMLAlghoritms(columnName, datasetName, alghoritmName):
 
         df.replace(' ?', np.nan, inplace=True)
         df['incomeBracket'] = df['incomeBracket'].apply(lambda x: 1 if x==' >50K' else 0)
+        df['race'] = df['race'].map({' White': 1, ' Black': 0, ' Other': 2, ' Asian-Pac-Islander': 3, ' Amer-Indian-Eskimo': 4})
         df['workclass'].fillna(' 0', inplace=True)
         df['fnlwgt'] = df['fnlwgt'].apply(lambda x: np.log1p(x))
         df['education'] = df['education'].apply(primary)

@@ -42,9 +42,7 @@ def addSelectedColumnName():
       datasetName = data['dataset_name']
       db.session.add(DatasetsInfo(columnName=columnName, datasetName=datasetName))
       db.session.commit()
-      return  {
-        'result': "jest git"
-    }
+      return jsonify(success=True)
 
 @app.route("/getDistinctPairs", methods=['GET'])
 def getDistinctPairs():
